@@ -39,14 +39,14 @@ Click on "Flow"
 6. We only want this flow to run when certain things happen. These are called Trigger Conditions. Click Add a Trigger.
 
 7. Fill in the following trigger fields
-| Field       | Value           |
-|-------------|-----------------|
-| Trigger     | Created         |
-| Table       | **TABLE NAME**  |
-| Condition   | Active is true? |
-| Run Trigger | Once            |
+| Field       | Value              |
+|-------------|--------------------|
+| Trigger     | Updated            |
+| Table       | Hiking Parties     |
+| Condition   | Status is Approved |
+| Run Trigger | Once               |
 
->Pro Tip: We are only triggering on on the creation of the record, this process will only run one time because we have the Run Trigger drop down set to Once. We don't want to send multiple emails for the same record. Just in case!
+>Pro Tip: We are only triggering on on the approval of the record, this process will only run one time because we have the Run Trigger drop down set to Once. We don't want to send multiple emails for the same record. Just in case!
 
 8. Click Done to save the trigger conditions.
 
@@ -73,9 +73,8 @@ Click on "Flow"
 14. Click **Save** at the top of the flow designer page to save your flow.
 >Pro Tip: Clicking the **Save** button is critical in this step, please don't forget it! 
 
-Extra Credit: Instead of having this email sent to a single person, send it to a user group instead. 
 
-**STEPS FOR CREATING A HIKING PARTY**
+**ADD STEPS FOR CREATING A HIKING PARTY**
 
 1. Navigate back to App Engine Studio and to the flow that we have been creating and click the Test button.
 
@@ -105,16 +104,93 @@ You should be able to see the email that the system has just generated
 
 Once you're flow is active, it will now send an email to Gallagher Gray anytime a new hiking party is created automatically!
 
+**Extra Credit**: Instead of having this email sent to a single person, send it to a user group instead. Add more data to the email so Gallagher Gray has more context.
+
 # Exercise 2 - HTML formatted Emails
 
 ## Goal
-In this exercise, we'll be triggering a nicely formatted, HTML email to be sent to the Park Rangers whenever a Hobble-A-Ton group has missed their check in.
+In the previous section, we created a simple email using the data fields. In this section, we're going to build out an email that is sent to the Park Rangers whenever a hike misses their scheduled check-in. It will include an HTML formatted table that has all the data a Park Ranger needs to find the lost hikers.
 
-<!-- Walk the attendees through creating a new workflow that is triggered when a party misses a check-in (time based seems complicated, double check in office hours) -->
+## Create a new workflow
 
-Provide some HTML snippets that allow the attendees to copy and paste an html formatted email
+1. Open the **APPNAME** application up in App Engine Studio.
+
+**SCREENSHOT**
+
+2. Scroll down to the Logic and automation section and click **(+)Add** to create a new workflow.
+
+**SCREENSHOT**
+
+Click on "Flow"
+![Alt text](images/knowledge2023_ccl1193_k23_lab1-02-a.png)
+
+3. Just like before, we'll skip the templates and click **"Build from scratch"**.
+![Alt text](images/knowledge2023_ccl1193_k23_lab1-03-a.png)
+
+4. Give your new flow a Name (1) and a Description (2) if the flow needs more explanation and click continue (3)
+
+**SCREENSHOT**
+
+5. Click **Continue** and then **Edit this flow** to open the workflow for editing.
+
+6. Let's setup the trigger condition for our flow:
+| Field      | Value                       |
+|------------|-----------------------------|
+| Trigger    | Updated                     |
+| Table      | Hiking Party                |
+| Conditions | Status changes to Emergency |
+
+7. When you're ready, click the **Done** button
+
+**SCREENSHOT**
+
+8. Like in the previous exercise, we're going to add an email action to our flow. But this time we're gonna spice it up with a snazzy table. Click the **Action (1)** button and enter **Email (2)** into the search box.
+![Alt text](images/knowledge2023_ccl1193_k23_lab1-10-a.png)
+
+11. Find the action called **Send Email**. You will see a little **(i)** to the right of the action that will display more information about the action.
+
+![Alt text](images/knowledge2023_ccl1193_k23_lab1-11-a.png)
+
+12. For the **To** box, drag the **RANGER FIELD NAME** pill over from the Hiking Party record.
+
+13. Set the **Subject** field to start with 
+>Lost Hiker Group Alert:&nbsp;  
+
+*Note the space at the end!*
+
+Then pull over the pill from the Hiking Group table labeled "**HIKING GROUP TABLE FIELD**"
+
+**SCREENSHOT**
+
+14. In the **Body** field, click the **Table** button (it looks like a little grid). Then hover over **Insert table**. Another grid will pop up. We need a grid that is 2 columns wide and 7 rows deep.
+
+**SCREENSHOT**
+
+15. Add the following to the table:
+| Name        |   |
+|-------------|---|
+| Leader      |   |
+| Start       |   |
+| End         |   |
+| Destination |   |
+ 
+16. Pull each data pill over from the Hiking Group record.
+**SCREENSHOT**
+
+17. Click **Done** and then **Save** the workflow. Let's test this bad boy out!
+
+18. Click the **Test** button at the top of your flow.
+**SCREENSHOT**
+
+19. Find a Hiking Group record in the dropdown and click **Run Test**
+
+**SCREENSHOT**
+
+20. Let's see if our notification was sent. Switch back to the main window. In the left navigation pane, type **Emails**. Navigate to **System Logs > Emails** and you should be able to see the email that the system has just generated.
+
 
 # Exercise 3 - Using templates to send emails
 
 ## Goal
 In this lab, we'll learn how to convert our email into a template  so our notifications can easily be reconfigured when we share our app with the West Eros National Park.
+
